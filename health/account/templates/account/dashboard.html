@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome to Dashboard</h1>
+    
+    {% with total_images_created=request.user.images_created.count %}
+        <p>{{ total_images_created }} {{ total_images_created|pluralize }}</p>
+    {% endwith %}
+    
+    
+    <p><a href="{% url "edit" %}">EDIT YOUR PROFILE</a> | <a href="{% url "password_change" %}">CHANGE YOUR PASSWORD</a></p>
+
+    {% if user_type|stringformat:"s" == "doctor" %}
+        {% include "account/user/doctor_detail.html" %}
+    {% endif %}
+
+    {% if user_type|stringformat:"s" == "normal user" %}
+        {% include "account/user/user_detail.html" %}
+    {% endif %}
+
+    {% if user_type|stringformat:"s" != "normal user" and user_type|stringformat:"s" != "doctor" %}
+        <p>First time to login, please <a href="{% url "edit" %}">CLICK HERE</a> to complete your profile</p>
+    {% endif %}
+
+    <h2>What's happening</h2>
+    <div id="action-list">
+        {% for action in actions %}
+            {% include "actions/action/detail.html" %}
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+
+{% load thumbnail %}
+
+{% block content %}
+	<a href="{% url "post_blog" %}">POST BLOG</a> | <a href="{% url "blog_list" %}">MY BLOG</a> | <a href="{% url "patient_list" %}">MY PATITENT</a> | <a href="{% url "receive_message_list" %}">MESSAGE</a>
+	<h2>MY INFO23</h2>
+	{% thumbnail user.profile.photo "100x100" crop="100%" as im %}
+	   <img src="{{ im.url }}">
+    {% endthumbnail %}
+
+	<p style="font-size: 20px">
+		USERNAME: {{request.user.username}}<br>
+		LAST NAME: {{request.user.last_name}}<br>
+		FIRST NAME: {{request.user.first_name}}<br>
+		INTRODUCTION : {{request.user.profile.introduction }}<br>
+		EMAIL : {{request.user.email}}<br>
+		GENDER : {{request.user.profile.gender}}<br>
+		PHONE NUMBER: {{request.user.profile.phone}}<br>
+		ADDRESS : {{request.user.profile.address}}<br>
+		BIRTH : {{request.user.profile.date_of_birth}}<br>
+	</p>
+
+{% endblock %}

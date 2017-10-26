@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}People{% endblock %}
+
+{% block content %}
+	<h1>Doctor</h1>
+	<div id="people-list">
+		{% for user in users %}
+			{% if user.profile.get_type_url|stringformat:"s" == "doctor" %}
+			<div class="user">
+				<a href="{{ user.profile.get_doctor_url  }}">
+					{% thumbnail user.profile.photo "150x150" crop="100%" as im %}
+						<img src="{{ im.url }}">
+					{% endthumbnail %}
+				</a>
+				<div class="info">
+					<a href="{{ user.profile.get_doctor_url }}" class="title">{{ user.username }}</a>
+				</div>
+			</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endblock %}

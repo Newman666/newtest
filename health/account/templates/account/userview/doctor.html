@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}DOCTOR{% endblock %}
+
+
+{% block content %}
+	<h2>INFO</h2>
+
+    <div style="width: 50%; float:left;">
+    {% thumbnail user.profile.photo "100x100" crop="100%" as im %}
+        <img src="{{ im.url }}">
+    {% endthumbnail %}
+	<p style="font-size: 20px">
+		USERNAME: {{user.username}}<br>
+		LAST NAME: {{user.last_name}}<br>
+		FIRST NAME: {{user.first_name}}<br>
+		INTRODUCTION : {{user.profile.introduction }}<br>
+		EMAIL : {{user.email}}<br>
+		GENDER : {{user.profile.gender}}<br>
+		PHONE NUMBER: {{user.profile.phone}}<br>
+		ADDRESS : {{user.profile.address}}<br>
+		BIRTH : {{user.profile.date_of_birth}}<br>
+	</p>
+	</div>
+	<div style="width: 40% ;float: right;">
+	<h3>SEND BUNDLE REQUIREMENT:</h3>
+	{% if request.user.username %}
+		    {%ifnotequal user.username request.user.username %}
+		        <a href="{% url 'adddoctor' request.user.username user.username %}">Add Doctor</a>
+		    {% endifnotequal %}
+	{% endif %}
+	</div>
+	
+	<div style="width: 50%">
+		<h2><strong>Blog:</strong></h2>
+		{% include "blogs/blog_list_ajax.html" %}
+	</div>
+{% endblock %}
+
+{% if new_message %}
+		<p style="font-size: 20px; text-align: center;">Your request has been sent.</p><br><br><br>
+	{% else %}
+	<div style="width: 40% ;float: right;">
+		<h3>SEND BUNDLE REQUIREMENT</h3>
+		<form action="." method="post">
+		{{ message_form.as_p }}
+		{% csrf_token %}
+		<p><input type="submit" value="SEND"></p>
+		</form>
+	</div>
+	{% endif %}

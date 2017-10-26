@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}MY HEALTH{% endblock %}
+
+
+{% block content %}
+<div style="width: 50%">
+	<a href="{% url "edit_healthprofile" %}">UPDATE YOUR HEALTH PROFILE</a>
+	<p>
+		HEIGHT: {{user.healthprofile.height}} cm<br>
+		WEIGHT:	{{user.healthprofile..weight}} kg<br>
+		BLOOD PRESSURE: {{user.healthprofile.blood_pressure}}<br>
+		BLOOD SUGER:  {{user.healthprofile.Blood_sugar}} mg/dl<br>
+	</p>
+</div>
+{% endblock %}

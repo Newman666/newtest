@@ -1,0 +1,7 @@
+
+
+{% for blog in blogs %}	
+	<h2><a href="{{ blog.get_absolute_url }}"">{{ blog.title }}</a></h2>
+	<p class="date">Published {{ blog.created }}</p>
+	<p>{{ blog.body|truncatewords:100 }}</p>
+{% endfor %}

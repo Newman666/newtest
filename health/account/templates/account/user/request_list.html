@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}My Messages{% endblock %}
+
+{% block content %}
+	<h1>My Message</h1>
+	<p><a href="{% url "receive_message_list" %}">RECEIVED</a>  |  <a href="{% url "send_message_list" %}">SENT</a> | <a href="{% url "show_notice" %}">REQUEST</a></p>
+	{% for message in mymessages%}
+	<p>
+		{{message.text}}<br>
+		{{message.created}} by {{message.author}}
+		<p><a href="{{message.get_author}}"><strong>View user profile</strong></a></p><br>
+	</p>
+	{% empty %}
+		<p>No message yet.</p>
+	{% endfor %}
+
+	Notice:<br>
+{% for notice in notice_list %}
+	{% ifequal notice.type 2 %}
+		{{ user.get_sender_url.username }} Request <a href="{% url 'doctoragree' notice.pk 1 %}">Agree</a>|<a href="{% url 'doctoragree' notice.pk 2 %}">Disagree</a><br>
+	{% else %}
+		<a href="{% url 'notice_detail' notice.pk %}">{{ notice }}</a><br>
+	{% endifequal %}
+	
+{% endfor %}
+{% endblock %}

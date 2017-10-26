@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}People{% endblock %}
+
+{% block content %}
+	<h1>Doctor</h1>
+	<div id="people-list">
+		{% for user in users %}
+			<div class="user">
+				<a href="{{ user.profile.get_doctor_url  }}">
+					{% thumbnail user.profile.photo "150x150" crop="100%" as im %}
+						<img src="{{ im.url }}">
+					{% endthumbnail %}
+				</a>
+				<div class="info">
+					<a href="{% url "user_detail" user.get_receiver_url.username %}" class="title">{{ user.get_receiver_url.username }}</a>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

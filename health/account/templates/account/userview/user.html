@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}INFO{% endblock %}
+
+
+{% block content %}
+
+	<div style="width: 50%; float:left;">
+	{% thumbnail user.profile.photo "100x100" crop="100%" as im %}
+		<img src="{{ im.url }}">
+	{% endthumbnail %}
+	<p style="font-size: 15px">
+		USERNAME: {{user.username}}<br>
+		LAST NAME: {{user.last_name}}<br>
+		FIRST NAME: {{user.first_name}}<br>
+		INTRODUCTION : {{user.profile.introduction }}<br>
+		EMAIL : {{user.email}}<br>
+		GENDER : {{user.profile.gender}}<br>
+		PHONE NUMBER: {{user.profile.phone}}<br>
+		ADDRESS : {{user.profile.address}}<br>
+		BIRTH : {{user.profile.date_of_birth}}<br>
+	</p>
+	</div>
+
+	
+{% endblock %}
+
+
+{% block domready %}
+	$('a.bundle').click(function(e){
+		e.preventDefault();
+		$.post('{% url "user_bundle" %}',
+			{
+				id: $(this).data('id'),
+				action: $(this).data('action')
+			},
+			function(data){
+				if (data['status'] == 'ok')
+				{
+					var previous_action = $('a.bundle').data('bundle');
+
+					// toggle data-action
+					$('a.bundle').data('action', previous_action == 'bundle' ? 'unbundle' : 'bundle');
+					// toggle link text
+					$('a.bundle').text(previous_action == 'bundle' ? 'Unbundle' : 'Bundle');
+
+					// update total followers
+					var previous_followers = parseInt($('span.count .total').text());
+					$('span.count .total').text(previous_action == 'bundle' ? previous_followers + 1 : previous_followers - 1);
+				}
+		});
+	});
+{% endblock %}
+
+	<p>jj {{user.docotr.count}}</p>
+	<a href="#" data-id="{{ user.id }}" data-action="{% if request.user in user.doctor.all %}un{% endif %}bundle" class="bundle button">
+			{% if request.user not in user.doctor.all %}
+				Bundle
+			{% else %}
+				Unbundle
+			{% endif %}
+	</a>

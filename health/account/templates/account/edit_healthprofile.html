@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Edit your health profile{% endblock %}
+
+{% block content %}
+    <h1>Edit....</h1>
+    <p>You can edit your health profile using the following form:</p>
+    <form action="." method="post" enctype="multipart/form-data">
+        {{ healthprofile_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Save changes"></p>
+    </form>
+{% endblock %}

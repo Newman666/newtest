@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}My Messages{% endblock %}
+
+{% block content %}
+	<h1>My Message</h1>
+	{% if request.user.profile.user_type|stringformat:"s" == "doctor" %}
+	<p><a href="{% url "receive_message_list" %}">RECEIVED</a>  |  <a href="{% url "send_message_list" %}">SENT</a> | <a href="{% url "request_message_list"%}">REQUEST</a></p>
+	{% endif %}
+	{% if request.user.profile.user_type|stringformat:"s" == "normal user" %}
+	<p><a href="{% url "receive_message_list" %}">RECEIVED</a>  |  <a href="{% url "send_message_list" %}">SENT</a> |  <a href="{% url "send_request_list" %}">MY REQUEST</a></p>
+	{% endif %}
+	
+{% endblock %}
